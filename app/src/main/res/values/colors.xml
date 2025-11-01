@@ -4,4 +4,6 @@
     <color name="orange">#F57C00</color>
 
     <color name="white">#FFFFFF</color>
+
+    <color name="ic_launcher_background">@color/blue</color>
 </resources>
