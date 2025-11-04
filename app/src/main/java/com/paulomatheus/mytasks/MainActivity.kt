@@ -14,9 +14,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.tvMain).text = "Outro texto"
+        binding = ActivityMainBinding.inflate(layoutInflater) //inflar é transformar um xml em um objeto do android (codigo kotlin)
+        setContentView(binding.root)
+
+        //findViewById<TextView>(R.id.tvMain).text = "Outro texto"
 
 
     }
