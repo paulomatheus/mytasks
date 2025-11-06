@@ -5,11 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="10dp">
+    app:cardCornerRadius="10dp"
+    app:cardElevation="20dp"
+    android:layout_marginTop="10dp"> <!--cardElevation eh sombra-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
