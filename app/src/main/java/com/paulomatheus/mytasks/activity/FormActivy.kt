@@ -2,6 +2,7 @@ package com.paulomatheus.mytasks.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.paulomatheus.mytasks.databinding.ActivityFormBinding
@@ -16,22 +17,16 @@ class FormActivity : AppCompatActivity() {
 
         binding = ActivityFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.e("Lifecycle", "onStart")
+
+        supportActionBar?.title = "Novo texto"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.e("Lifecycle", "onResume")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.e("Lifecycle", "onPause")
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("Lifecycle", "onDestroy")
-    }
 }
