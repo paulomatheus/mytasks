@@ -10,8 +10,8 @@ import com.paulomatheus.mytasks.databinding.ActivityMainBinding
 import com.paulomatheus.mytasks.entity.Task
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: ListAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,33 +24,19 @@ class MainActivity : AppCompatActivity() {
 
         //findViewById<TextView>(R.id.tvMain).text = "Outro texto"
         initComponents()
-
-        Log.e("Lifecycle", "onCreate")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.e("Lifecycle", "onResume")
+        adapter.addItem(Task(title = "Minha tarefa", date = "06/11/2025"))
     }
-
-    override fun onPause() {
-        super.onPause()
-        Log.e("Lifecycle", "onPause")
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("Lifecycle", "onDestroy")
-    }
-
     private fun initComponents() {
-        val adapter = ListAdapter()
+        adapter = ListAdapter()
         binding.rvMain.adapter = adapter
 
-        for (i in 1..20) {
+        /*for (i in 1..20) {
             adapter.addItem(Task(title = "Minha tarefa $i", date = "06/11/2025"))
-        }
+        }*/
 
         binding.fabNew.setOnClickListener {
             startActivity(Intent(this, FormActivity::class.java))

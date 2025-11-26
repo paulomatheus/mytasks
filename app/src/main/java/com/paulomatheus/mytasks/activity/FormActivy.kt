@@ -18,9 +18,10 @@ class FormActivity : AppCompatActivity() {
         binding = ActivityFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Novo texto"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        initComponents()
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home) {
@@ -28,5 +29,13 @@ class FormActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun initComponents() {
+        binding.btSave.setOnClickListener {
+            finish()
+        }
+    }
+
+
 
 }
