@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.databinding.ActivityFormBinding
 
 class FormActivity : AppCompatActivity() {
@@ -31,8 +33,13 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
+        binding.layoutTitle.error = null
         binding.btSave.setOnClickListener {
-            finish()
+            if (binding.etTitle.text.isNullOrEmpty()) {
+                binding.layoutTitle.error = ContextCompat.getString(this, R.string.title_required)
+            } else {
+                finish()
+            }
         }
     }
 

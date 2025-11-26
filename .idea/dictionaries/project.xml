@@ -2,6 +2,8 @@
   <dictionary name="project">
     <words>
       <w>descrição</w>
+      <w>obrigatório</w>
+      <w>salvar</w>
       <w>título</w>
     </words>
   </dictionary>
