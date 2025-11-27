@@ -28,19 +28,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        adapter.addItem(Task(title = "Minha tarefa", date = "06/11/2025"))
+        getTasks()
     }
     private fun initComponents() {
         adapter = ListAdapter()
         binding.rvMain.adapter = adapter
 
-        /*for (i in 1..20) {
-            adapter.addItem(Task(title = "Minha tarefa $i", date = "06/11/2025"))
-        }*/
-
         binding.fabNew.setOnClickListener {
             startActivity(Intent(this, FormActivity::class.java))
         }
+    }
+
+    private fun getTasks(){
 
     }
 }
