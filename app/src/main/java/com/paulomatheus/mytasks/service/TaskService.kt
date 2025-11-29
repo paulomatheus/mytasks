@@ -1,18 +1,22 @@
 package com.paulomatheus.mytasks.service
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.paulomatheus.mytasks.entity.Task
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class TaskService {
+class TaskService: ViewModel() {
     private val taskRepository = RetrofitService().getTaskRepository()
 
-    fun create(task: Task) {
-        taskRepository.create(task).enqueue(ServiceCallBack<Task>())
+    fun create(task: Task) : LiveData<Task> {
+        val tasksLiveData = MutableLiveData<Task>()
+        taskRepository.create(task).enqueue(ServiceCallBack<Task>(tasksLiveData))
+        return tasksLiveData
     }
 
-    fun list() {
-        taskRepository.list().enqueue(ServiceCallBack<List<Task>>())
+    fun list(): LiveData<List<Task>> {
+        val tasksLiveData = MutableLiveData<List<Task>>()
+        taskRepository.list().enqueue(ServiceCallBack<List<Task>>(tasksLiveData))
+        return tasksLiveData
     }
 }
