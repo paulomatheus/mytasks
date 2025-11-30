@@ -33,6 +33,9 @@ class ListAdapter : RecyclerView.Adapter<ItemViewHolder>() {
 
     override fun getItemCount() = items.size
 
+    fun getItem(position: Int) = items[position]
+
+
     fun setData(tasks: List<Task>) {
         items.clear()
         items.addAll(tasks)

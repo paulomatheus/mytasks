@@ -49,10 +49,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, FormActivity::class.java))
         }
 
-        ItemTouchHelper(TouchCallback(object: SwipeListener {
-            override fun onSwipe(position: Int){
-                adapter.removeItem(position)
+        ItemTouchHelper(TouchCallback(object : SwipeListener {
+            override fun onSwipe(position: Int) {
+                adapter.getItem(position).id?.let {
+                    taskService.delete(it).observe(this@MainActivity) { response ->
+                        if (response.error){
+                            adapter.notifyItemChanged(position)
+                        } else{
+                            adapter.removeItem(position)
+                        }
+                    }
+                }
             }
+
         })).attachToRecyclerView(binding.rvMain)
 
     }
