@@ -6,4 +6,6 @@
     <string name="time">Hora</string>
     <string name="save">Salvar</string>
     <string name="title_required">Título é obrigatório</string>
+    <string name="server_error">Não foi possível se conectar ao servidor</string>
+    <string name="empty_list">Não existem tarefas cadastradas.\nClique no botão abaixo para cadastrar uma nova tarefa.</string>
 </resources>

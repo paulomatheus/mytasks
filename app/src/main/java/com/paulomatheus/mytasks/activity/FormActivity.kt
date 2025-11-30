@@ -3,6 +3,7 @@ package com.paulomatheus.mytasks.activity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.paulomatheus.mytasks.R
@@ -14,7 +15,7 @@ class FormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFormBinding
 
-    private lateinit var taskService:  TaskService
+    private val taskService: TaskService by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +26,6 @@ class FormActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        taskService = TaskService()
         initComponents()
     }
 
@@ -44,8 +44,9 @@ class FormActivity : AppCompatActivity() {
                 binding.layoutTitle.error = ContextCompat.getString(this, R.string.title_required)
             } else {
                 val task = Task(title = binding.etTitle.text.toString())
-                taskService.create(task)
-                finish()
+                taskService.create(task).observe(this) { response ->
+                    finish()
+                }
             }
         }
     }
