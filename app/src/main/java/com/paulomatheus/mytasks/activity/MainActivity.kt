@@ -8,10 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.adapter.ListAdapter
+import com.paulomatheus.mytasks.adapter.TouchCallback
 import com.paulomatheus.mytasks.databinding.ActivityMainBinding
 import com.paulomatheus.mytasks.entity.Task
+import com.paulomatheus.mytasks.listener.SwipeListener
 import com.paulomatheus.mytasks.service.TaskService
 
 class MainActivity : AppCompatActivity() {
@@ -45,6 +48,13 @@ class MainActivity : AppCompatActivity() {
         binding.fabNew.setOnClickListener {
             startActivity(Intent(this, FormActivity::class.java))
         }
+
+        ItemTouchHelper(TouchCallback(object: SwipeListener {
+            override fun onSwipe(position: Int){
+                adapter.removeItem(position)
+            }
+        })).attachToRecyclerView(binding.rvMain)
+
     }
 
     private fun getTasks() {

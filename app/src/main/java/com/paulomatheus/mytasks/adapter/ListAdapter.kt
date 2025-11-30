@@ -36,11 +36,13 @@ class ListAdapter : RecyclerView.Adapter<ItemViewHolder>() {
     fun setData(tasks: List<Task>) {
         items.clear()
         items.addAll(tasks)
+        notifyDataSetChanged()
     }
 
-    fun addItem(item: Task) {
-        items.add(item)
-        notifyItemInserted(items.size - 1)
+    fun removeItem(position: Int){
+        items.removeAt(position)
+        notifyItemRemoved(position)
+
     }
 
 }
