@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initComponents() {
         binding.tvMessage.visibility = View.GONE
-        adapter = ListAdapter()
+        adapter = ListAdapter(this,binding.tvMessage)
         binding.rvMain.adapter = adapter
 
         binding.fabNew.setOnClickListener {
@@ -64,23 +64,23 @@ class MainActivity : AppCompatActivity() {
 
         })).attachToRecyclerView(binding.rvMain)
 
+        binding.srlMain.setOnRefreshListener {
+            getTasks()
+        }
+
     }
 
     private fun getTasks() {
         taskService.list()
             .observe(this) { response ->
+                binding.srlMain.isRefreshing = false
                 if (response.error) {
                     binding.tvMessage.visibility = View.VISIBLE
                     binding.tvMessage.text = ContextCompat.getString(this, R.string.server_error)
                 } else {
                     response.value?.let {
-                        if (it.isEmpty()) {
-                            binding.tvMessage.visibility = View.VISIBLE
-                            binding.tvMessage.text =
-                                ContextCompat.getString(this, R.string.empty_list)
-                        } else {
                             adapter.setData(it) //it referencia o value do response
-                        }
+
                     } ?: run {
                         binding.tvMessage.visibility = View.VISIBLE
                         binding.tvMessage.text = ContextCompat.getString(this, R.string.empty_list)

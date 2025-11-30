@@ -1,12 +1,17 @@
 package com.paulomatheus.mytasks.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.databinding.ListItemBinding
 import com.paulomatheus.mytasks.entity.Task
 
-class ListAdapter : RecyclerView.Adapter<ItemViewHolder>() {
+class ListAdapter(private val context: Context , private val emptyMessage: TextView) : RecyclerView.Adapter<ItemViewHolder>() {
 
     private val items = mutableListOf<Task>()
 
@@ -40,12 +45,22 @@ class ListAdapter : RecyclerView.Adapter<ItemViewHolder>() {
         items.clear()
         items.addAll(tasks)
         notifyDataSetChanged()
+        checkEmptyList()
     }
 
     fun removeItem(position: Int){
         items.removeAt(position)
         notifyItemRemoved(position)
+        checkEmptyList()
+    }
 
+    private fun checkEmptyList(){
+        if(items.isEmpty()){
+            emptyMessage.visibility = View.VISIBLE
+            emptyMessage.text = ContextCompat.getString(context, R.string.empty_list)
+        }else{
+            emptyMessage.visibility = View.INVISIBLE
+        }
     }
 
 }
