@@ -14,6 +14,7 @@ logging-interceptor = "5.2.0"
 lifecycle-viewmodel-ktx = "2.9.4"
 swipe-refresh-layout = "1.1.0"
 firebase-bom = "34.4.0"
+preference-ktx = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +33,7 @@ swipe-refresh-layout = { group = "androidx.swiperefreshlayout", name = "swiperef
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference-ktx" }
 
 
 [plugins]

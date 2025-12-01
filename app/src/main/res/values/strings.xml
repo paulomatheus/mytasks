@@ -10,4 +10,9 @@
     <string name="empty_list">Não existem tarefas cadastradas.\nClique no botão abaixo para cadastrar uma nova tarefa.</string>
     <string name="permission">Permissões</string>
     <string name="notification_permission_rationale">O aplicativo irá enviar notificações para você quando houver tarefas pendentes.</string>
+    <string name="preferences">Configurações</string>
+    <string name="daily_notification">Notificações Diárias</string>
+    <string name="daily_notification_on">Você receberá notificações diárias do aplicativo</string>
+    <string name="daily_notification_off">Você não receberá mais notificações diárias do aplicativo</string>
+"
 </resources>

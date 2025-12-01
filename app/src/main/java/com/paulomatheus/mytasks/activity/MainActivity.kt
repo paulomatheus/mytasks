@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,6 +47,18 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getTasks()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.preferences) {
+            startActivity(Intent(this, PreferenceActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initComponents() {
