@@ -1,11 +1,16 @@
 package com.paulomatheus.mytasks.service
 
+import com.google.gson.GsonBuilder
+import com.paulomatheus.mytasks.adapter.LocalDateAdapter
+import com.paulomatheus.mytasks.adapter.LocalTimeAdapter
 import com.paulomatheus.mytasks.repository.TaskRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
+import java.time.LocalTime
 
 class RetrofitService() {
     private val taskRepository: TaskRepository
@@ -34,6 +39,10 @@ class RetrofitService() {
     }
 
     private fun createConverter(): Converter.Factory {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+            .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter())
+            .create()
         return GsonConverterFactory.create()
     }
 

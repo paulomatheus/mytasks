@@ -68,6 +68,12 @@ class MainActivity : AppCompatActivity() {
     private fun initComponents() {
         binding.tvMessage.visibility = View.INVISIBLE
         adapter = ListAdapter(this,binding.tvMessage, object : ClickListener{
+            override fun onClick(task: Task) {
+                Intent(this@MainActivity, FormActivity::class.java)
+                intent.putExtra("task", task)
+                startActivity(intent)
+            }
+
             override fun OnComplete(id: Long) {
                 taskService.complete(id).observe(this@MainActivity) { response ->
                     if(!response.error){

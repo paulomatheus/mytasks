@@ -17,6 +17,8 @@ class FormActivity : AppCompatActivity() {
 
     private val taskService: TaskService by viewModels()
 
+    private var taskId: Long? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,15 @@ class FormActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        intent.extras?.getSerializable("task")?.let{extra ->
+            val task = extra as Task
+
+            binding.etTitle.setText(task.title)
+            binding.etDescription.setText(task.description)
+            binding.etDate.setText(task.formatDate())
+            binding.etTime.setText(task.formatTime())
+        }
         initComponents()
     }
 
@@ -44,8 +55,12 @@ class FormActivity : AppCompatActivity() {
                 binding.layoutTitle.error = ContextCompat.getString(this, R.string.title_required)
             } else {
                 val task = Task(title = binding.etTitle.text.toString())
-                taskService.create(task).observe(this) { response ->
-                    finish()
+                if(taskId == null) {
+                    taskService.create(task).observe(this) {
+                        taskService.create(task).observe(this) { response ->
+                            finish()
+                    }
+
                 }
             }
         }
