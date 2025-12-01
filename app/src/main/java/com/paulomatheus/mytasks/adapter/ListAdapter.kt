@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.databinding.ListItemBinding
 import com.paulomatheus.mytasks.entity.Task
+import com.paulomatheus.mytasks.listener.ClickListener
 
-class ListAdapter(private val context: Context , private val emptyMessage: TextView) : RecyclerView.Adapter<ItemViewHolder>() {
+class ListAdapter(private val context: Context , private val emptyMessage: TextView, private val listener: ClickListener) : RecyclerView.Adapter<ItemViewHolder>() {
 
     private val items = mutableListOf<Task>()
 
@@ -26,7 +27,7 @@ class ListAdapter(private val context: Context , private val emptyMessage: TextV
             false
         )
 
-        return ItemViewHolder(binding)
+        return ItemViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(

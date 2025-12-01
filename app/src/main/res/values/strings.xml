@@ -14,5 +14,6 @@
     <string name="daily_notification">Notificações Diárias</string>
     <string name="daily_notification_on">Você receberá notificações diárias do aplicativo</string>
     <string name="daily_notification_off">Você não receberá mais notificações diárias do aplicativo</string>
+    <string name="mark_completed">Marcar como concluída</string>
 "
 </resources>

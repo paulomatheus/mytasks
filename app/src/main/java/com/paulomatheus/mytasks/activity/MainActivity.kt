@@ -24,6 +24,7 @@ import com.paulomatheus.mytasks.adapter.ListAdapter
 import com.paulomatheus.mytasks.adapter.TouchCallback
 import com.paulomatheus.mytasks.databinding.ActivityMainBinding
 import com.paulomatheus.mytasks.entity.Task
+import com.paulomatheus.mytasks.listener.ClickListener
 import com.paulomatheus.mytasks.listener.SwipeListener
 import com.paulomatheus.mytasks.service.TaskService
 
@@ -65,8 +66,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
-        binding.tvMessage.visibility = View.GONE
-        adapter = ListAdapter(this,binding.tvMessage)
+        binding.tvMessage.visibility = View.INVISIBLE
+        adapter = ListAdapter(this,binding.tvMessage, object : ClickListener{
+            override fun OnComplete(id: Long) {
+                taskService.complete(id).observe(this@MainActivity) { response ->
+                    if(!response.error){
+                        getTasks()
+                    }
+                }
+            }
+
+        })
         binding.rvMain.adapter = adapter
 
         binding.fabNew.setOnClickListener {

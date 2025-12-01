@@ -26,4 +26,11 @@ class TaskService: ViewModel() {
         taskRepository.delete(id).enqueue(ServiceCallBack(liveData))
         return liveData
     }
+
+    fun complete(id: Long): LiveData<ResponseDTO<Task>> {
+        val taskLiveData = MutableLiveData<ResponseDTO<Task>>()
+        taskRepository.complete(id).enqueue(ServiceCallBack(taskLiveData))
+        return taskLiveData
+
+    }
 }
