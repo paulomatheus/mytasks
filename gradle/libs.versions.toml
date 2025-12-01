@@ -15,6 +15,7 @@ lifecycle-viewmodel-ktx = "2.9.4"
 swipe-refresh-layout = "1.1.0"
 firebase-bom = "34.4.0"
 preference-ktx = "1.2.1"
+gms-google-services = "4.4.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,4 +40,4 @@ preference-ktx = { group = "androidx.preference", name = "preference-ktx", versi
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+gms-google-services = {id = "com.google.gms.google-services", version.ref = "gms-google-services"}

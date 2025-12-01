@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
 import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.adapter.ListAdapter
 import com.paulomatheus.mytasks.adapter.TouchCallback
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //findViewById<TextView>(R.id.tvMain).text = "Outro texto"
+
         initComponents()
         askNotificationPermission()
     }
