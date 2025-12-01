@@ -36,7 +36,7 @@ android {
         viewBinding = true
     }
 
-    kotlin{
+    kotlin {
         jvmToolchain(11)
     }
 }
@@ -52,6 +52,10 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+
 
     testImplementation(libs.junit)
 
