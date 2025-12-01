@@ -7,7 +7,7 @@ import com.paulomatheus.mytasks.databinding.ListItemBinding
 import com.paulomatheus.mytasks.entity.Task
 import com.paulomatheus.mytasks.listener.ClickListener
 
-class ItemViewHolder(private val binding: ListItemBinding private val listener: ClickListener) : RecyclerView.ViewHolder(binding.root) {
+class ItemViewHolder(private val binding: ListItemBinding, private val listener: ClickListener) : RecyclerView.ViewHolder(binding.root) {
     fun setData(task: Task) {
         binding.tvTitle.text = task.title
 
