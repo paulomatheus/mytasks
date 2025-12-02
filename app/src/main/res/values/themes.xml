@@ -1,14 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.MinhasTarefas" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/brown</item>
         <item name="colorOnPrimary">@color/white</item>
+
         <item name="colorAccent">@color/orange</item>
         <item name="colorSecondary">@color/orange</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="windowActionBarOverlay">true</item>
-
     </style>
 
     <style name="Theme.MinhasTarefas" parent="Base.Theme.MinhasTarefas" />
