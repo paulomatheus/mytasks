@@ -21,6 +21,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.auth
 import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.adapter.ListAdapter
 import com.paulomatheus.mytasks.adapter.TouchCallback
@@ -73,8 +74,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.preferences) {
-            startActivity(Intent(this, PreferenceActivity::class.java))
+        when (item.itemId) {
+            R.id.preferences -> startActivity(Intent(this, PreferenceActivity::class.java))
+            R.id.logout -> logout()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -141,6 +143,15 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    private fun logout() {
+        Firebase.auth.signOut()
+
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 
     private fun askNotificationPermission() {

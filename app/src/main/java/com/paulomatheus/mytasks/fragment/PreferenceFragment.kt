@@ -19,6 +19,10 @@ class PreferenceFragment: PreferenceFragmentCompat() {
             if(newValue.toString().toBoolean()){
                 Firebase.messaging.subscribeToTopic("daily_notification").addOnCompleteListener {
                     Log.e("fcm", "Subscription")
+                }.addOnSuccessListener {
+                    Log.e("fcm", "Subscription")
+                }.addOnFailureListener {
+                    Log.e("fcm", "Subscription")
                 }
             } else {
                 Firebase.messaging.unsubscribeFromTopic("daily_notification").addOnCompleteListener {
