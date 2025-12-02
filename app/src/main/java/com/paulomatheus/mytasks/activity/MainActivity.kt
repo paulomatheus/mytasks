@@ -113,17 +113,29 @@ class MainActivity : AppCompatActivity() {
 
         ItemTouchHelper(TouchCallback(object : SwipeListener {
             override fun onSwipe(position: Int) {
-                adapter.getItem(position).id?.let {
-                    taskService.delete(it).observe(this@MainActivity) { response ->
-                        if (response.error) {
-                            adapter.notifyItemChanged(position)
-                        } else {
-                            adapter.removeItem(position)
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle(R.string.delete_title)
+                    .setMessage(R.string.delete_message)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        // Usuário confirmou: executa a exclusão
+                        adapter.getItem(position).id?.let { id ->
+                            taskService.delete(id).observe(this@MainActivity) { response ->
+                                if (response.error) {
+                                    adapter.notifyItemChanged(position)
+                                } else {
+                                    adapter.removeItem(position)
+                                }
+                            }
                         }
                     }
-                }
+                    .setNegativeButton(android.R.string.cancel) { _, _ ->
+                        adapter.notifyItemChanged(position)
+                    }
+                    .setOnCancelListener {
+                        adapter.notifyItemChanged(position)
+                    }
+                    .show()
             }
-
         })).attachToRecyclerView(binding.rvMain)
 
         binding.srlMain.setOnRefreshListener {

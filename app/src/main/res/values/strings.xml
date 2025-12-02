@@ -32,5 +32,9 @@
     <string name="date_format_extended_on">Exibindo data por extenso (ex: 01 de janeiro)</string>
     <string name="date_format_extended_off">Exibindo data numérica (ex: 01/01/2025)</string>
 
+    <string name="delete_title">Excluir Tarefa</string>
+    <string name="delete_message">Tem certeza que deseja excluir esta tarefa?</string>
+
+
 "
 </resources>
