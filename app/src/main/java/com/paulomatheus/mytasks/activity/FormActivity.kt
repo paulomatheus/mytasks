@@ -17,6 +17,10 @@ import com.paulomatheus.mytasks.service.TaskService
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import java.util.Calendar
+import java.util.Locale
 
 class FormActivity : AppCompatActivity() {
 
@@ -62,6 +66,14 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
+        binding.etDate.setOnClickListener {
+            showDatePicker()
+        }
+
+        binding.etTime.setOnClickListener {
+            showTimePicker()
+        }
+
         binding.layoutTitle.error = null
         binding.btSave.setOnClickListener {
             if (binding.etTitle.text.isNullOrEmpty()) {
@@ -107,6 +119,47 @@ class FormActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                // O mês no Calendar começa em 0, por isso não precisamos somar +1 se usarmos formatação direta,
+                // mas para exibir 01/01/2025, o month precisa ser tratado.
+                // O formato deve bater com o DateTimeFormatter "dd/MM/yyyy" que você usa no save
+                val formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+                binding.etDate.setText(formattedDate)
+            },
+            year,
+            month,
+            day
+        )
+        datePickerDialog.show()
+    }
+
+    private fun showTimePicker() {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                // Formata para manter dois dígitos (ex: 09:05)
+                val formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
+                binding.etTime.setText(formattedTime)
+            },
+            hour,
+            minute,
+            true // true para formato 24 horas
+        )
+        timePickerDialog.show()
     }
 
     private fun showAlert(message: Int) {
