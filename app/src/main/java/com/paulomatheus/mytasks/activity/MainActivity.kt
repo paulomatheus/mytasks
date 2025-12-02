@@ -50,7 +50,11 @@ class MainActivity : AppCompatActivity() {
         initComponents()
         askNotificationPermission()
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        if (preferences.getBoolean("first_run", true)) { //deveria ser getBoolean(key, defValue) ao invés de (p0,p1)
+        if (preferences.getBoolean(
+                "first_run",
+                true
+            )
+        ) { //deveria ser getBoolean(key, defValue) ao invés de (p0,p1)
             AlertDialog.Builder(this)
                 .setMessage("Aqui voce vai criar suas tarefas.")
                 .setNeutralButton(android.R.string.ok, null)
@@ -83,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initComponents() {
         binding.tvMessage.visibility = View.INVISIBLE
-        adapter = ListAdapter(this,binding.tvMessage, object : ClickListener{
+        adapter = ListAdapter(this, binding.tvMessage, object : ClickListener {
             override fun onClick(task: Task) {
                 val intent = Intent(this@MainActivity, FormActivity::class.java)
                 intent.putExtra("task", task)
@@ -92,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun OnComplete(id: Long) {
                 taskService.complete(id).observe(this@MainActivity) { response ->
-                    if(!response.error){
+                    if (!response.error) {
                         getTasks()
                     }
                 }
@@ -109,9 +113,9 @@ class MainActivity : AppCompatActivity() {
             override fun onSwipe(position: Int) {
                 adapter.getItem(position).id?.let {
                     taskService.delete(it).observe(this@MainActivity) { response ->
-                        if (response.error){
+                        if (response.error) {
                             adapter.notifyItemChanged(position)
-                        } else{
+                        } else {
                             adapter.removeItem(position)
                         }
                     }
@@ -135,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                     binding.tvMessage.text = ContextCompat.getString(this, R.string.server_error)
                 } else {
                     response.value?.let {
-                            adapter.setData(it) //it referencia o value do response
+                        adapter.setData(it) //it referencia o value do response
 
                     } ?: run {
                         binding.tvMessage.visibility = View.VISIBLE
@@ -166,20 +170,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission(),){
-        isGranted: Boolean ->
-        if(!isGranted){
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (!isGranted) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                 AlertDialog.Builder(this)
                     .setTitle(R.string.permission)
                     .setMessage(R.string.notification_permission_rationale)
-                    .setPositiveButton(android.R.string.ok
+                    .setPositiveButton(
+                        android.R.string.ok
                     ) { dialog, which -> null }
                     .setNegativeButton(android.R.string.cancel, null)
                     .create()
                     .show()
             }
-        } else{
+        } else {
 
         }
     }

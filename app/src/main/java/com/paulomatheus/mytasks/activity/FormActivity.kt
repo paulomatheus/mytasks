@@ -1,6 +1,7 @@
 package com.paulomatheus.mytasks.activity
 
 import android.os.Bundle
+import android.content.Intent
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -43,6 +44,12 @@ class FormActivity : AppCompatActivity() {
             binding.etDate.setText(task.formatDate())
             binding.etTime.setText(task.formatTime())
         }
+
+        intent.extras?.getString(Intent.EXTRA_TEXT)?.let { text ->
+            binding.etTitle.setText(text)
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        }
+
         initComponents()
     }
 
@@ -61,7 +68,10 @@ class FormActivity : AppCompatActivity() {
                 binding.layoutTitle.error = ContextCompat.getString(this, R.string.title_required)
             } else {
                 val date = if (binding.etDate.hasValue()) {
-                    LocalDate.parse(binding.etDate.value(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    LocalDate.parse(
+                        binding.etDate.value(),
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                    )
                 } else null
 
                 val time = if (binding.etTime.hasValue()) {
