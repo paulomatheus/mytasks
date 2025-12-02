@@ -15,6 +15,12 @@ class TaskService: ViewModel() {
         return tasksLiveData
     }
 
+    fun update(task: Task): LiveData<ResponseDTO<Task>> {
+        val taskLiveData = MutableLiveData<ResponseDTO<Task>>()
+        taskRepository.update(task.id!!, task).enqueue(ServiceCallBack(taskLiveData))
+        return taskLiveData
+    }
+
     fun list(): LiveData<ResponseDTO<List<Task>>> {
         val tasksLiveData = MutableLiveData<ResponseDTO<List<Task>>>()
         taskRepository.list().enqueue(ServiceCallBack<List<Task>>(tasksLiveData))

@@ -6,13 +6,13 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 
-data class  Task(
+data class Task(
     val id: Long? = null,
     val title: String,
     val description: String? = null,
     val date: LocalDate? = null,
-    val completed: Boolean = false,
-    val time: LocalTime? = null
+    val time: LocalTime? = null,
+    val completed: Boolean = false
 
 ) : Serializable {
     fun formatDate(): String {

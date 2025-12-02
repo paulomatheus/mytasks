@@ -4,12 +4,18 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.databinding.ActivityFormBinding
 import com.paulomatheus.mytasks.entity.Task
+import com.paulomatheus.mytasks.extension.hasValue
+import com.paulomatheus.mytasks.extension.value
 import com.paulomatheus.mytasks.service.TaskService
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class FormActivity : AppCompatActivity() {
 
@@ -29,7 +35,7 @@ class FormActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        intent.extras?.getSerializable("task")?.let{extra ->
+        intent.extras?.getSerializable("task")?.let { extra ->
             val task = extra as Task
 
             binding.etTitle.setText(task.title)
@@ -42,7 +48,7 @@ class FormActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == android.R.id.home) {
+        if (item.itemId == android.R.id.home) {
             finish()
         }
         return super.onOptionsItemSelected(item)
@@ -54,18 +60,52 @@ class FormActivity : AppCompatActivity() {
             if (binding.etTitle.text.isNullOrEmpty()) {
                 binding.layoutTitle.error = ContextCompat.getString(this, R.string.title_required)
             } else {
-                val task = Task(title = binding.etTitle.text.toString())
-                if(taskId == null) {
-                    taskService.create(task).observe(this) {
-                        taskService.create(task).observe(this) { response ->
-                            finish()
-                    }
+                val date = if (binding.etDate.hasValue()) {
+                    LocalDate.parse(binding.etDate.value(), DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                } else null
 
+                val time = if (binding.etTime.hasValue()) {
+                    LocalTime.parse(binding.etTime.value(), DateTimeFormatter.ofPattern("HH:mm"))
+                } else null
+
+                val task = Task(
+                    id = taskId,
+                    title = binding.etTitle.value(),
+                    description = binding.etDescription.value(),
+                    date = date,
+                    time = time
+                )
+
+
+                if (taskId == null) {
+                    taskService.create(task).observe(this) { response ->
+                        if (response.error) {
+                            showAlert(R.string.create_error)
+                        } else {
+                            finish()
+                        }
+                    }
+                } else {
+                    taskService.update(task).observe(this) { response ->
+                        if (response.error) {
+                            showAlert(R.string.update_error)
+                        } else {
+                            finish()
+                        }
+                    }
                 }
             }
         }
+
     }
 
-
-
+    private fun showAlert(message: Int) {
+        AlertDialog.Builder(this)
+            .setMessage(message)
+            .setNeutralButton(android.R.string.ok, null)
+            .create()
+            .show()
+    }
 }
+
+

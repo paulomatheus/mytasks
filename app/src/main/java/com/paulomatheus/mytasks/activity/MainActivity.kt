@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         binding.tvMessage.visibility = View.INVISIBLE
         adapter = ListAdapter(this,binding.tvMessage, object : ClickListener{
             override fun onClick(task: Task) {
-                Intent(this@MainActivity, FormActivity::class.java)
+                val intent = Intent(this@MainActivity, FormActivity::class.java)
                 intent.putExtra("task", task)
                 startActivity(intent)
             }

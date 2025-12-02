@@ -43,7 +43,7 @@ class RetrofitService() {
             .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
             .registerTypeAdapter(LocalTime::class.java, LocalTimeAdapter())
             .create()
-        return GsonConverterFactory.create()
+        return GsonConverterFactory.create(gson)
     }
 
 }
