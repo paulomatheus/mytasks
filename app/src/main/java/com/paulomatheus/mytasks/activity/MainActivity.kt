@@ -16,6 +16,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
@@ -46,6 +48,18 @@ class MainActivity : AppCompatActivity() {
 
         initComponents()
         askNotificationPermission()
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        if (preferences.getBoolean("first_run", true)) { //deveria ser getBoolean(key, defValue) ao invés de (p0,p1)
+            AlertDialog.Builder(this)
+                .setMessage("Aqui voce vai criar suas tarefas.")
+                .setNeutralButton(android.R.string.ok, null)
+                .create()
+                .show()
+
+            preferences.edit {
+                putBoolean("first_run", false)
+            }
+        }
     }
 
     override fun onResume() {
