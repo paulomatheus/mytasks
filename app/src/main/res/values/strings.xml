@@ -35,6 +35,9 @@
     <string name="delete_title">Excluir Tarefa</string>
     <string name="delete_message">Tem certeza que deseja excluir esta tarefa?</string>
 
+    <string name="login_guest">Entrar como convidado</string>
+    <string name="login_guest_failure">Falha ao entrar como convidado.</string>
+
 
 "
 </resources>

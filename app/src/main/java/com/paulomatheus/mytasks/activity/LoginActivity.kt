@@ -48,6 +48,27 @@ class LoginActivity : AppCompatActivity() {
                 createAccount()
             }
         }
+
+        binding.btAnonymousLogin.setOnClickListener {
+            loginAnonymously()
+        }
+    }
+
+    private fun loginAnonymously() {
+        auth.signInAnonymously()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("auth", "signInAnonymously:success")
+                    startActivity(Intent(this, MainActivity::class.java))
+                } else {
+                    Log.w("auth", "signInAnonymously:failure", task.exception)
+                    Toast.makeText(
+                        baseContext,
+                        R.string.login_guest_failure,
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            }
     }
 
     private fun validate(): Boolean {
