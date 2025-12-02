@@ -90,7 +90,9 @@ class MainActivity : AppCompatActivity() {
         adapter = ListAdapter(this, binding.tvMessage, object : ClickListener {
             override fun onClick(task: Task) {
                 val intent = Intent(this@MainActivity, FormActivity::class.java)
-                intent.putExtra("task", task)
+                task.id?.let { id ->
+                    intent.putExtra("taskId", id)
+                }
                 startActivity(intent)
             }
 

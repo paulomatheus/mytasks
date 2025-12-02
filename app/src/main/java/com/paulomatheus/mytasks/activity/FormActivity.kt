@@ -40,13 +40,25 @@ class FormActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        intent.extras?.getSerializable("task")?.let { extra ->
-            val task = extra as Task
+        intent.extras?.getLong("taskId")?.let { taskId ->
+            // O getLong retorna 0 se não encontrar a chave, então validamos se é um ID válido
+            if (taskId > 0) {
+                this.taskId = taskId // Atualiza a variável global para o update funcionar
 
-            binding.etTitle.setText(task.title)
-            binding.etDescription.setText(task.description)
-            binding.etDate.setText(task.formatDate())
-            binding.etTime.setText(task.formatTime())
+                taskService.read(taskId).observe(this) { response ->
+                    if (response.error) {
+                        showAlert(R.string.server_error)
+                        finish()
+                    } else {
+                        response.value?.let { task ->
+                            binding.etTitle.setText(task.title)
+                            binding.etDescription.setText(task.description)
+                            binding.etDate.setText(task.formatDate())
+                            binding.etTime.setText(task.formatTime())
+                        }
+                    }
+                }
+            }
         }
 
         intent.extras?.getString(Intent.EXTRA_TEXT)?.let { text ->

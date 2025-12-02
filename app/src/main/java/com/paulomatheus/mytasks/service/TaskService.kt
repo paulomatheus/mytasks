@@ -9,6 +9,11 @@ import com.paulomatheus.mytasks.repository.ResponseDTO
 class TaskService: ViewModel() {
     private val taskRepository = RetrofitService().getTaskRepository()
 
+    fun read(id: Long): LiveData<ResponseDTO<Task>> {
+        val taskLiveData = MutableLiveData<ResponseDTO<Task>>()
+        taskRepository.read(id).enqueue(ServiceCallBack(taskLiveData))
+        return taskLiveData
+    }
     fun create(task: Task) : LiveData<ResponseDTO<Task>> {
         val tasksLiveData = MutableLiveData<ResponseDTO<Task>>()
         taskRepository.create(task).enqueue(ServiceCallBack<Task>(tasksLiveData))
