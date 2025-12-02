@@ -27,5 +27,10 @@
     <string name="empty_password">Preencha a senha</string>
     <string name="account_created_fail">Não foi possível criar a conta</string>
     <string name="login_fail">Não foi possível fazer o login</string>
+
+    <string name="date_format_preference">Formato da Data</string>
+    <string name="date_format_extended_on">Exibindo data por extenso (ex: 01 de janeiro)</string>
+    <string name="date_format_extended_off">Exibindo data numérica (ex: 01/01/2025)</string>
+
 "
 </resources>

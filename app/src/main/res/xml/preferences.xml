@@ -9,4 +9,13 @@
             android:title="@string/daily_notification" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Interface">
+        <SwitchPreferenceCompat
+            android:key="date_format_extended"
+            android:defaultValue="false"
+            android:title="@string/date_format_preference"
+            android:summaryOn="@string/date_format_extended_on"
+            android:summaryOff="@string/date_format_extended_off" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

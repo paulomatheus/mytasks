@@ -1,21 +1,31 @@
 package com.paulomatheus.mytasks.adapter
 
-import android.view.View
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.databinding.ListItemBinding
 import com.paulomatheus.mytasks.entity.Task
 import com.paulomatheus.mytasks.listener.ClickListener
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class ItemViewHolder(private val binding: ListItemBinding, private val listener: ClickListener) : RecyclerView.ViewHolder(binding.root) {
+
     fun setData(task: Task) {
         binding.tvTitle.text = task.title
-        binding.tvDate.text = task.formatDateTime()
+
+        val context = binding.root.context
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val useExtendedFormat = preferences.getBoolean("date_format_extended", false)
+
+        binding.tvDate.text = formatTaskDate(task, useExtendedFormat)
+
         if(task.completed){
             binding.tvTitle.setBackgroundResource(R.color.green)
         } else{
             binding.tvTitle.setBackgroundResource(R.color.blue)
         }
+
         binding.root.setOnClickListener {
             listener.onClick(task)
         }
@@ -25,6 +35,30 @@ class ItemViewHolder(private val binding: ListItemBinding, private val listener:
                 task.id?.let { id -> listener.OnComplete(task.id) }
                 true
             }
+        }
+    }
+
+    private fun formatTaskDate(task: Task, useExtended: Boolean): String {
+        if (task.date == null && task.time == null) return "-"
+
+        val dateString = if (task.date != null) {
+            if (useExtended) {
+                val formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
+                task.date.format(formatter)
+            } else {
+                task.formatDate()
+            }
+        } else {
+            ""
+        }
+
+        val timeString = task.formatTime()
+
+        return when {
+            task.date != null && task.time != null -> "$dateString $timeString"
+            task.date != null -> dateString
+            task.time != null -> timeString
+            else -> "-"
         }
     }
 }
