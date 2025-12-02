@@ -1,5 +1,7 @@
 package com.paulomatheus.mytasks.adapter
 
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.paulomatheus.mytasks.R
@@ -14,14 +16,19 @@ class ItemViewHolder(private val binding: ListItemBinding, private val listener:
 
     fun setData(task: Task) {
         binding.tvTitle.text = task.title
+        binding.tvDescription.text = task.description ?: ""
+        binding.tvTime.text = task.formatTime()
 
         val context = binding.root.context
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val useExtendedFormat = preferences.getBoolean("date_format_extended", false)
-        binding.tvDate.text = formatTaskDate(task, useExtendedFormat)
+
+        binding.tvDate.text = getFormattedDate(task, useExtendedFormat)
 
         val colorResource = getStatusColor(task)
-        binding.tvTitle.setBackgroundResource(colorResource)
+        (binding.root as CardView).setCardBackgroundColor(
+            ContextCompat.getColor(context, colorResource)
+        )
 
         binding.root.setOnClickListener {
             listener.onClick(task)
@@ -50,27 +57,14 @@ class ItemViewHolder(private val binding: ListItemBinding, private val listener:
         }
     }
 
-    private fun formatTaskDate(task: Task, useExtended: Boolean): String {
-        if (task.date == null && task.time == null) return "-"
+    private fun getFormattedDate(task: Task, useExtended: Boolean): String {
+        val date = task.date ?: return ""
 
-        val dateString = if (task.date != null) {
-            if (useExtended) {
-                val formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
-                task.date.format(formatter)
-            } else {
-                task.formatDate()
-            }
+        return if (useExtended) {
+            val formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
+            date.format(formatter)
         } else {
-            ""
-        }
-
-        val timeString = task.formatTime()
-
-        return when {
-            task.date != null && task.time != null -> "$dateString $timeString"
-            task.date != null -> dateString
-            task.time != null -> timeString
-            else -> "-"
+            task.formatDate()
         }
     }
 }
