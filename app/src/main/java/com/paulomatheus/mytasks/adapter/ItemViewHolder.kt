@@ -6,6 +6,7 @@ import com.paulomatheus.mytasks.R
 import com.paulomatheus.mytasks.databinding.ListItemBinding
 import com.paulomatheus.mytasks.entity.Task
 import com.paulomatheus.mytasks.listener.ClickListener
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -17,14 +18,10 @@ class ItemViewHolder(private val binding: ListItemBinding, private val listener:
         val context = binding.root.context
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val useExtendedFormat = preferences.getBoolean("date_format_extended", false)
-
         binding.tvDate.text = formatTaskDate(task, useExtendedFormat)
 
-        if(task.completed){
-            binding.tvTitle.setBackgroundResource(R.color.green)
-        } else{
-            binding.tvTitle.setBackgroundResource(R.color.blue)
-        }
+        val colorResource = getStatusColor(task)
+        binding.tvTitle.setBackgroundResource(colorResource)
 
         binding.root.setOnClickListener {
             listener.onClick(task)
@@ -35,6 +32,21 @@ class ItemViewHolder(private val binding: ListItemBinding, private val listener:
                 task.id?.let { id -> listener.OnComplete(task.id) }
                 true
             }
+        }
+    }
+
+    private fun getStatusColor(task: Task): Int {
+        if (task.completed) {
+            return R.color.green
+        }
+
+        val date = task.date ?: return R.color.blue
+        val today = LocalDate.now()
+
+        return when {
+            date.isBefore(today) -> R.color.red
+            date.isEqual(today) -> R.color.yellow
+            else -> R.color.blue
         }
     }
 
